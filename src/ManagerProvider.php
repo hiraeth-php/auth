@@ -53,6 +53,8 @@ class ManagerProvider implements Hiraeth\Provider
 	 */
 	public function __invoke($instance, Hiraeth\Broker $broker)
 	{
+		$proxy = $broker->make('Hiraeth\Auth\Proxy');
+
 		foreach ($this->config->get('*', 'auth', array()) as $config => $acls) {
 			$acl = $broker->make('iMarc\Auth\ACL');
 
@@ -66,6 +68,11 @@ class ManagerProvider implements Hiraeth\Provider
 				}
 			}
 
+			foreach ($this->config->get($config, 'auth.services', array()) as $target => $service) {
+				$proxy->register($target, $service);
+			}
+
+			$instance->register('*', $proxy);
 			$instance->add($acl);
 		}
 

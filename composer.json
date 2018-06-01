@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "imarc/auth": "^1.3"
+        "imarc/auth": "^1.4.1"
     },
     "autoload": {
         "classmap": ["src/"]

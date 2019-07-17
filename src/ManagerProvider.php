@@ -3,6 +3,7 @@
 namespace Hiraeth\Auth;
 
 use Hiraeth;
+use iMarc\Auth;
 
 /**
  *
@@ -10,38 +11,16 @@ use Hiraeth;
 class ManagerProvider implements Hiraeth\Provider
 {
 	/**
-	 * The Hiraeth configuration
-	 *
-	 * @access protected
-	 * @var Hiraeth\Configuration
-	 */
-	protected $config = NULL;
-
-
-	/**
 	 * Get the interfaces for which the provider operates.
 	 *
 	 * @access public
 	 * @return array A list of interfaces for which the provider operates
 	 */
-	static public function getInterfaces()
+	static public function getInterfaces(): array
 	{
 		return [
-			'iMarc\Auth\Manager'
+			Auth\Manager::class
 		];
-	}
-
-
-	/**
-	 * Instantiate a new provider
-	 *
-	 * @access public
-	 * @param Hiraeth\Configuration $config The hiraeth configuration
-	 * @return void
-	 */
-	public function __construct(Hiraeth\Configuration $config)
-	{
-		$this->config = $config;
 	}
 
 
@@ -49,35 +28,34 @@ class ManagerProvider implements Hiraeth\Provider
 	 * Prepare the instance.
 	 *
 	 * @access public
-	 * @return Checkpoint\Validation The prepared instance
+	 * @var object $instance The unprepared instance of the object
+	 * @param Hiraeth\Application $app The application instance for which the provider operates
+	 * @return object The prepared instance
 	 */
-	public function __invoke($instance, Hiraeth\Broker $broker)
+	public function __invoke(object $instance, Hiraeth\Application $app): object
 	{
-		$proxy = $broker->make('Hiraeth\Auth\Proxy');
+		$signal = $app->get(Hiraeth\Utils\Signal::class);
 
-		foreach ($this->config->get('*', 'auth', array()) as $config => $acls) {
-			$acl = $broker->make('iMarc\Auth\ACL');
+		foreach ($app->getConfig('*', 'auth', []) as $config => $acls) {
+			$acl = $app->get(Auth\ACL::class);
 
-			foreach ($this->config->get($config, 'auth.aliases', array()) as $action => $actions) {
+			foreach ($app->getConfig($config, 'auth.aliases', array()) as $action => $actions) {
 				$acl->alias($action, $actions);
 			}
 
-			foreach ($this->config->get($config, 'auth.acls', array()) as $role => $permissions) {
+			foreach ($app->getConfig($config, 'auth.acls', array()) as $role => $permissions) {
 				foreach ($permissions as $type => $actions) {
 					$acl->allow($role, $type, $actions);
 				}
 			}
 
-			foreach ($this->config->get($config, 'auth.services', array()) as $target => $service) {
-				$proxy->register($target, $service);
+			foreach ($app->getConfig($config, 'auth.services', array()) as $target => $service) {
+				$instance->register($target, $signal->create($service));
 			}
 
-			$instance->register('*', $proxy);
 			$instance->add($acl);
 		}
 
-		$broker->share($instance);
-
-		return $instance;
+		return $app->share($instance);
 	}
 }

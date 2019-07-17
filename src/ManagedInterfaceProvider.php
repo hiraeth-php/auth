@@ -3,6 +3,7 @@
 namespace Hiraeth\Auth;
 
 use Hiraeth;
+use iMarc\Auth;
 
 /**
  *
@@ -15,10 +16,10 @@ class ManagedInterfaceProvider implements Hiraeth\Provider
 	 * @access public
 	 * @return array A list of interfaces for which the provider operates
 	 */
-	static public function getInterfaces()
+	static public function getInterfaces(): array
 	{
 		return [
-			'iMarc\Auth\ManagedInterface'
+			Auth\ManagedInterface::class
 		];
 	}
 
@@ -27,11 +28,13 @@ class ManagedInterfaceProvider implements Hiraeth\Provider
 	 * Prepare the instance.
 	 *
 	 * @access public
-	 * @return Checkpoint\Validation The prepared instance
+	 * @var object $instance The unprepared instance of the object
+	 * @param Hiraeth\Application $app The application instance for which the provider operates
+	 * @return object The prepared instance
 	 */
-	public function __invoke($instance, Hiraeth\Broker $broker)
+	public function __invoke(object $instance, Hiraeth\Application $app): object
 	{
-		$instance->setAuthManager($broker->make('iMarc\Auth\Manager'));
+		$instance->setAuthManager($app->get(Auth\Manager::class));
 
 		return $instance;
 	}

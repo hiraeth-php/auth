@@ -12,8 +12,8 @@ final class IntegrationTest extends TestCase
 	 */
 	public function setUp(): void
 	{
-		$this->app  = new Hiraeth\Application(realpath(__DIR__ . '/..'));
-		$this->app->boot();
+		$this->app = new Hiraeth\Application(realpath(__DIR__ . '/..'));
+		$this->app->exec();
 
 		$this->auth = $this->app->get(Auth\Manager::class);
 		$this->auth->setEntity(new User());

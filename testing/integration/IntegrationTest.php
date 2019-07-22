@@ -1,6 +1,5 @@
 <?php
 
-use iMarc\Auth;
 use PHPUnit\Framework\TestCase;
 
 final class IntegrationTest extends TestCase

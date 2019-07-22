@@ -3,7 +3,7 @@
 namespace Hiraeth\Auth;
 
 use Hiraeth;
-use iMarc\Auth;
+use Auth;
 
 /**
  *

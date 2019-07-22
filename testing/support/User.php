@@ -3,12 +3,12 @@
 /**
  *
  */
-class User implements iMarc\Auth\EntityInterface
+class User implements Auth\EntityInterface
 {
 	/**
 	 *
 	 */
-	public function getRoles()
+	public function getRoles(): array
 	{
 		return ['admin'];
 	}
@@ -17,7 +17,7 @@ class User implements iMarc\Auth\EntityInterface
 	/**
 	 *
 	 */
-	public function getPermissions()
+	public function getPermissions(): array
 	{
 		return [];
 	}

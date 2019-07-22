@@ -56,7 +56,7 @@
 	; the AuthServiceInterface provided by the upstream auth package.
 
 	services = {
-	; "context": "Auth\SomeService"
+	;	"context": "Auth\SomeService"
 	}
 
 [twig]

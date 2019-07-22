@@ -67,5 +67,5 @@
 	;
 
 	globals = {
-		"auth": "iMarc\Auth\Manager"
+		"auth": "Auth\Manager"
 	}

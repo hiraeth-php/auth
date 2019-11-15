@@ -13,7 +13,7 @@
     ],
     "require": {
         "hiraeth/app": "^2.0",
-        "hiraeth/signal": "^1.2",
+        "hiraeth/signal": "^2.0",
         "imarc/auth": "^2.0"
     },
     "require-dev": {

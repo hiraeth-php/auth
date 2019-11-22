@@ -35,21 +35,26 @@ class ManagerProvider implements Hiraeth\Provider
 	public function __invoke(object $instance, Hiraeth\Application $app): object
 	{
 		$signal = $app->get(Hiraeth\Utils\Signal::class);
+		$defaults = [
+			'acls'     => array(),
+			'aliases'  => array(),
+			'services' => array(),
+		];
 
-		foreach ($app->getConfig('*', 'auth', []) as $config => $acls) {
+		foreach ($app->getConfig('*', 'auth', $defaults) as $path => $config) {
 			$acl = $app->get(Auth\ACL::class);
 
-			foreach ($app->getConfig($config, 'auth.aliases', array()) as $action => $actions) {
+			foreach ($config['aliases'] as $action => $actions) {
 				$acl->alias($action, $actions);
 			}
 
-			foreach ($app->getConfig($config, 'auth.acls', array()) as $role => $permissions) {
+			foreach ($config['acls'] as $role => $permissions) {
 				foreach ($permissions as $type => $actions) {
 					$acl->allow($role, $type, $actions);
 				}
 			}
 
-			foreach ($app->getConfig($config, 'auth.services', array()) as $target => $service) {
+			foreach ($config['services'] as $target => $service) {
 				$instance->register($target, $signal->create($service));
 			}
 

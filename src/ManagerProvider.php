@@ -50,7 +50,23 @@ class ManagerProvider implements Hiraeth\Provider
 
 			foreach ($config['acls'] as $role => $permissions) {
 				foreach ($permissions as $type => $actions) {
-					$acl->allow($role, $type, $actions);
+					$controls = array();
+
+					foreach ($actions as $key => $value) {
+						if (is_numeric($key)) {
+							$controls[] = $value;
+
+							continue;
+						}
+
+						if ($value) {
+							$controls[] = $key;
+
+							continue;
+						}
+					}
+
+					$acl->allow($role, $type, $controls);
 				}
 			}
 

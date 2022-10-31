@@ -11,10 +11,7 @@ use Auth;
 class GuardProvider implements Hiraeth\Provider
 {
 	/**
-	 * Get the interfaces for which the provider operates.
-	 *
-	 * @access public
-	 * @return array A list of interfaces for which the provider operates
+	 * {@inheritDoc}
 	 */
 	static public function getInterfaces(): array
 	{
@@ -25,12 +22,9 @@ class GuardProvider implements Hiraeth\Provider
 
 
 	/**
-	 * Prepare the instance.
+	 * {@inheritDoc}
 	 *
-	 * @access public
-	 * @var object $instance The unprepared instance of the object
-	 * @param Hiraeth\Application $app The application instance for which the provider operates
-	 * @return object The prepared instance
+	 * @param Auth\Guard $instance
 	 */
 	public function __invoke(object $instance, Hiraeth\Application $app): object
 	{

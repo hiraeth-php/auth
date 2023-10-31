@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
         "classmap": [
-            "testing/support"
+            "test/src"
         ]
     },
     "type": "opus-package",

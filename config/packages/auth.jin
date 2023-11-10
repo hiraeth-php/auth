@@ -66,6 +66,10 @@
 	;	"context": "Auth\SomeService"
 	}
 
+	;
+	; Guards are a way limit certain URLs to certain roles using a middlware.
+	;
+
 	[&.guard]
 
 		;
@@ -73,7 +77,7 @@
 		; in will receive a 403 in place of a 401.
 		;
 
-		role = User
+		role = user
 
 		;
 		; The default rule for the guard service.  You may want to change the order of the reject

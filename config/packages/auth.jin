@@ -67,7 +67,7 @@
 	}
 
 	;
-	; Guards are a way limit certain URLs to certain roles using a middlware.
+	; Guards are a way limit certain URLs to certain roles.
 	;
 
 	[&.guard]

@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "hiraeth/app": "^1.0",
         "imarc/auth": "^1.4.1"
     },
     "autoload": {
